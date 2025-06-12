@@ -1,0 +1,17 @@
+{
+  "name": "pokemon-tcg-sets-decks",
+  "version": "1.0.0",
+  "description": "A project that fetches and displays all sets and decks from the Pokémon TCG API.",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "live-server src",
+    "build": "echo 'Build step not defined'",
+    "test": "echo 'Test step not defined'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  },
+  "author": "Damian",
+  "license": "MIT"
+}
