@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Pokemon TCG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-yellow-100 min-h-screen flex flex-col">
+ <nav class="bg-blue-900 text-white px-4 py-3 flex items-center justify-between">
+  <div class="flex items-center gap-6">
+    <span class="font-bold text-lg">Pokemon TCG</span>
+    <ul class="hidden sm:flex gap-6 text-base font-medium">
+      <li><a href="index.html" class="hover:underline">Cards</a></li>
+    </ul>
+  </div>
+  <button class="sm:hidden">
+    <svg class="w-7 h-7" fill="none" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
+</nav>
+  <main class="flex-1 flex flex-col sm:flex-row">
+    <aside class="bg-pink-100 p-4 sm:w-1/5 w-full sm:min-h-[calc(100vh-104px)]">
+      <section>
+        <h2 class="font-bold mb-2 text-base">Type</h2>
+        <div class="flex flex-col gap-2">
+          <button class="bg-blue-900 text-white px-4 py-1 rounded text-sm">Fire</button>
+          <button class="bg-blue-900 text-white px-4 py-1 rounded text-sm">Fire</button>
+          <button class="bg-blue-900 text-white px-4 py-1 rounded text-sm">Fire</button>
+        </div>
+      </section>
+      <section class="mt-6">
+        <h2 class="font-bold mb-2 text-base">Rarity</h2>
+        <select class="w-full border rounded p-1 text-sm"></select>
+      </section>
+      <section class="mt-6">
+        <h2 class="font-bold mb-2 text-base">Set</h2>
+        <div class="flex">
+          <input type="text" class="w-full border rounded-l p-1 text-sm" />
+          <button class="bg-white border rounded-r px-2 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-4.35-4.35M17 11A6 6 0 1 0 5 11a6 6 0 0 0 12 0z" />
+            </svg>
+          </button>
+        </div>
+      </section>
+    </aside>
+    <section class="flex-1 p-4 bg-yellow-100">
+      <div id="cards-container" class="grid grid-cols-2 sm:grid-cols-4 gap-6"></div>
+    </section>
+  </main>
+  <footer class="bg-blue-900 text-white text-center p-2 mt-auto">
+    &copy;2025 Damian
+  </footer>
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded shadow-lg p-4 w-80 relative border-2 border-blue-900">
+      <div class="flex items-center justify-between mb-2">
+        <span id="modal-title" class="font-bold text-lg"></span>
+        <button id="close-modal" class="text-red-600 font-bold text-xl px-2 hover:bg-red-100 rounded">×</button>
+      </div>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+
+</html>
