@@ -9,7 +9,7 @@ let cardsShown = DEFAULT_LIMIT;
 
 async function fetchAllCards() {
   loading = true;
-  renderCards(); // Toon direct de loading state
+  renderCards();
   try {
     allCards = [];
     const res = await fetch('https://api.pokemontcg.io/v2/cards?page=1&pageSize=250');
@@ -34,7 +34,6 @@ async function fetchAllSets() {
     allSets = data.data;
     renderSetFilter();
   } catch (e) {
-    // Optioneel: toon foutmelding in de set-filter
   }
 }
 
