@@ -7,34 +7,28 @@ let loading = false;
 const DEFAULT_LIMIT = 10;
 let cardsShown = DEFAULT_LIMIT;
 
-async function fetchAllCards() {
+async function fetchAllData() {
   loading = true;
   renderCards();
   try {
-    allCards = [];
-    const res = await fetch('https://api.pokemontcg.io/v2/cards?page=1&pageSize=250');
-    if (!res.ok) throw new Error('Fout bij ophalen kaarten');
-    const data = await res.json();
-    allCards = data.data;
+    const [cardsRes, setsRes] = await Promise.all([
+      fetch('https://api.pokemontcg.io/v2/cards?page=1&pageSize=250'),
+      fetch('https://api.pokemontcg.io/v2/sets')
+    ]);
+    if (!cardsRes.ok || !setsRes.ok) throw new Error('Fout bij ophalen data');
+    const cardsData = await cardsRes.json();
+    const setsData = await setsRes.json();
+    allCards = cardsData.data;
+    allSets = setsData.data;
     filteredCards = allCards;
     collectFilters();
+    renderSetFilter();
     cardsShown = DEFAULT_LIMIT;
   } catch (e) {
     showError(e.message);
   }
   loading = false;
   renderCards();
-}
-
-async function fetchAllSets() {
-  try {
-    const res = await fetch('https://api.pokemontcg.io/v2/sets');
-    if (!res.ok) throw new Error('Fout bij ophalen sets');
-    const data = await res.json();
-    allSets = data.data;
-    renderSetFilter();
-  } catch (e) {
-  }
 }
 
 function collectFilters() {
@@ -112,12 +106,12 @@ function renderCards() {
   }
   cardsToShow.forEach(card => {
     container.innerHTML += `
-      <div class="deck-card bg-white rounded shadow p-2 flex flex-col items-center" data-id="${card.id}">
+      <section class="deck-card bg-white rounded shadow p-2 flex flex-col items-center" data-id="${card.id}">
         <h3 class="font-bold text-center text-sm mb-1">${card.name}</h3>
         <img src="${card.images.small}" alt="${card.name}" class="w-full h-32 object-contain mb-2"/>
         <div class="text-xs text-center mb-1">${card.set?.name || ''}</div>
         <button class="view-details bg-blue-900 text-white px-2 py-1 rounded text-xs hover:bg-blue-700">Details</button>
-      </div>
+      </section>
     `;
   });
 
@@ -186,5 +180,4 @@ document.getElementById('close-modal').onclick = () => {
   document.getElementById('modal').classList.add('hidden');
 };
 
-fetchAllSets();
-fetchAllCards();
+fetchAllData();

@@ -1,10 +1,17 @@
 let allSets = [];
 
 async function fetchAllSets() {
-  const res = await fetch('https://api.pokemontcg.io/v2/sets');
-  const data = await res.json();
-  allSets = data.data;
-  renderSets();
+  try {
+    const [res] = await Promise.all([
+      fetch('https://api.pokemontcg.io/v2/sets')
+    ]);
+    if (!res.ok) throw new Error('Fout bij ophalen sets');
+    const data = await res.json();
+    allSets = data.data;
+    renderSets();
+  } catch (e) {
+    showError(e.message);
+  }
 }
 
 function renderSets() {
@@ -12,12 +19,12 @@ function renderSets() {
   setsContainer.innerHTML = '';
   allSets.forEach(set => {
     setsContainer.innerHTML += `
-      <div class="set-card bg-white rounded shadow p-2 flex flex-col items-center" data-id="${set.id}">
+      <section class="set-card bg-white rounded shadow p-2 flex flex-col items-center" data-id="${set.id}">
         <h3 class="font-bold text-center text-sm mb-1">${set.name}</h3>
         <img src="${set.images.logo}" alt="${set.name}" class="w-24 h-16 object-contain mb-2"/>
         <div class="text-xs text-center mb-1">Release: ${set.releaseDate || '-'}</div>
         <button class="view-details bg-blue-900 text-white px-2 py-1 rounded text-xs hover:bg-blue-700">Details</button>
-      </div>
+      </section>
     `;
   });
   addSetEventListeners();
@@ -48,6 +55,11 @@ function showModal(set) {
     <div class="mb-1">${set.ptcgoCode ? `<span class="font-bold">PTCGO:</span> ${set.ptcgoCode}` : ''}</div>
   `;
   modal.classList.remove('hidden');
+}
+
+function showError(msg) {
+  const setsContainer = document.getElementById('sets-container');
+  setsContainer.innerHTML = `<p class="text-red-600">${msg}</p>`;
 }
 
 document.getElementById('close-modal').onclick = () => {
